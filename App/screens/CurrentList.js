@@ -10,9 +10,13 @@ const CurrentList = () => {
   const onFavoritePress = () => alert('Ahoy sailor o/');
 
   const renderNachos = () =>
-    nachos.map(({id, name}) => (
+    nachos.map(({id, name}, index) => (
       <React.Fragment key={id}>
-        <ListItem name={name} onFavoritePress={onFavoritePress} />
+        <ListItem
+          name={name}
+          onFavoritePress={onFavoritePress}
+          isFavorite={index % 2 === 0}
+        />
         <Separator />
       </React.Fragment>
     ));
