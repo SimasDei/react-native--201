@@ -4,11 +4,15 @@ import {SafeAreaView, ScrollView} from 'react-native';
 import nachos from '../data/nachos';
 
 import ListItem from '../components/ListItem';
+import Separator from '../components/UI/Separator';
 
 const CurrentList = () => {
   const renderNachos = () =>
-    nachos.map(ingredient => (
-      <ListItem key={ingredient.id} name={ingredient.name} />
+    nachos.map(({id, name}) => (
+      <React.Fragment key={id}>
+        <ListItem name={name} />
+        <Separator />
+      </React.Fragment>
     ));
 
   return (
