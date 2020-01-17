@@ -18,17 +18,19 @@ const styles = StyleSheet.create({
   },
 });
 
-const ListItem = ({name}) => {
+const ListItem = ({name, onFavoritePress}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>{name}</Text>
-      <TouchableOpacity>
-        <Image
-          source={require('../assets/icons/ios-star-outline.png')}
-          style={styles.icon}
-          resizeMode="contain"
-        />
-      </TouchableOpacity>
+      {onFavoritePress && (
+        <TouchableOpacity onPress={onFavoritePress}>
+          <Image
+            source={require('../assets/icons/ios-star-outline.png')}
+            style={styles.icon}
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };

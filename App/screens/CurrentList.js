@@ -7,10 +7,12 @@ import ListItem from '../components/ListItem';
 import Separator from '../components/UI/Separator';
 
 const CurrentList = () => {
+  const onFavoritePress = () => alert('Ahoy sailor o/');
+
   const renderNachos = () =>
     nachos.map(({id, name}) => (
       <React.Fragment key={id}>
-        <ListItem name={name} />
+        <ListItem name={name} onFavoritePress={onFavoritePress} />
         <Separator />
       </React.Fragment>
     ));
