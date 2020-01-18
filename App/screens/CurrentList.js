@@ -5,6 +5,7 @@ import nachos from '../data/nachos';
 
 import ListItem from '../components/ListItem';
 import Separator from '../components/UI/Separator';
+import AddItem from '../components/AddItem';
 
 const CurrentList = () => {
   const onFavoritePress = () => alert('Ahoy sailor o/');
@@ -24,7 +25,12 @@ const CurrentList = () => {
     />
   );
 
-  return <SafeAreaView>{renderNachos()}</SafeAreaView>;
+  return (
+    <SafeAreaView>
+      <AddItem />
+      {renderNachos()}
+    </SafeAreaView>
+  );
 };
 
 export default CurrentList;
