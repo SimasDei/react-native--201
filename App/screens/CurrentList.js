@@ -1,5 +1,11 @@
-import React from 'react';
-import {SafeAreaView, FlatList} from 'react-native';
+import React, {useState} from 'react';
+import {
+  SafeAreaView,
+  FlatList,
+  KeyboardAvoidingView,
+  StyleSheet,
+} from 'react-native';
+import uuid from 'uuid/v4';
 
 import nachos from '../data/nachos';
 
@@ -7,12 +13,28 @@ import ListItem from '../components/ListItem';
 import Separator from '../components/UI/Separator';
 import AddItem from '../components/AddItem';
 
+const styles = StyleSheet.create({
+  listContainer: {
+    flex: 1,
+  },
+});
+
 const CurrentList = () => {
+  const [list, setList] = useState(nachos);
+
   const onFavoritePress = () => alert('Ahoy sailor o/');
+
+  const onSubmitHandler = ({nativeEvent: {text}}) => {
+    const newIngredient = {
+      id: uuid(),
+      name: text,
+    };
+    setList([newIngredient, ...list]);
+  };
 
   const renderNachos = () => (
     <FlatList
-      data={nachos}
+      data={list}
       renderItem={({item: {name}, index}) => (
         <ListItem
           name={name}
@@ -22,13 +44,15 @@ const CurrentList = () => {
       )}
       keyExtractor={({id}) => id}
       ItemSeparatorComponent={() => <Separator />}
+      ListHeaderComponent={() => <AddItem onSubmitEditing={onSubmitHandler} />}
     />
   );
 
   return (
-    <SafeAreaView>
-      <AddItem />
-      {renderNachos()}
+    <SafeAreaView style={styles.listContainer}>
+      <KeyboardAvoidingView style={styles.listContainer} behavior="padding">
+        {renderNachos()}
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
