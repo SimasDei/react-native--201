@@ -9,7 +9,8 @@ import {
 } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 
-// import LeftActions from './UI/LeftActions';
+import LeftActions from './UI/LeftActions';
+import RightActions from './UI/RightActions';
 
 const styles = StyleSheet.create({
   container: {
@@ -34,27 +35,15 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  leftAction: {
-    flex: 1,
-    backgroundColor: '#388e3c',
-    justifyContent: 'center',
-  },
-  actionText: {
-    color: '#fff',
-    fontWeight: '600',
-    padding: 20,
-  },
 });
 
-const LeftActions = () => {
-  return (
-    <View style={styles.leftAction}>
-      <Text style={styles.actionText}>Add to Cart</Text>
-    </View>
-  );
-};
-
-const ListItem = ({name, onFavoritePress, isFavorite}) => {
+const ListItem = ({
+  name,
+  onFavoritePress,
+  isFavorite,
+  onLeftSwipeHandler,
+  onRightSwipeHandler,
+}) => {
   let starIcon;
 
   if (isFavorite) {
@@ -70,7 +59,11 @@ const ListItem = ({name, onFavoritePress, isFavorite}) => {
   }
 
   return (
-    <Swipeable renderLeftActions={LeftActions}>
+    <Swipeable
+      renderLeftActions={LeftActions}
+      renderRightActions={RightActions}
+      onSwipeableLeftOpen={onLeftSwipeHandler}
+      onSwipeableRightOpen={onRightSwipeHandler}>
       <View style={styles.container}>
         <Text style={styles.text}>{name}</Text>
         {onFavoritePress && (

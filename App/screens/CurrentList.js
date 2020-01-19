@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   SafeAreaView,
   FlatList,
@@ -24,7 +24,7 @@ const CurrentList = () => {
 
   const onFavoritePress = () => alert('Ahoy sailor o/');
 
-  const onSubmitHandler = ({nativeEvent: {text}}) => {
+  const onSubmitHandler = ({ nativeEvent: { text } }) => {
     const newIngredient = {
       id: uuid(),
       name: text,
@@ -32,17 +32,27 @@ const CurrentList = () => {
     setList([newIngredient, ...list]);
   };
 
+  const onLeftSwipeHandler = () => {
+    alert('Ahoy Sailor ⛵');
+  };
+
+  const onRightSwipeHandler = () => {
+    alert('Alright alright alright 👌');
+  };
+
   const renderNachos = () => (
     <FlatList
       data={list}
-      renderItem={({item: {name}, index}) => (
+      renderItem={({ item: { name }, index }) => (
         <ListItem
           name={name}
           onFavoritePress={onFavoritePress}
           isFavorite={index % 2 === 0}
+          onLeftSwipeHandler={onLeftSwipeHandler}
+          onRightSwipeHandler={onRightSwipeHandler}
         />
       )}
-      keyExtractor={({id}) => id}
+      keyExtractor={({ id }) => id}
       ItemSeparatorComponent={() => <Separator />}
       ListHeaderComponent={() => <AddItem onSubmitEditing={onSubmitHandler} />}
     />
