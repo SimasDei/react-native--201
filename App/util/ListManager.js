@@ -44,6 +44,10 @@ export const useCurrentList = () => {
     }
   };
 
+  const onPressHandler = (navigation, item) => {
+    navigation.navigate('ItemDetails', { item });
+  };
+
   useEffect(() => {
     ingredientListInit();
   }, []);
@@ -55,5 +59,6 @@ export const useCurrentList = () => {
     onSubmitHandler,
     onRightSwipeHandler,
     onFavoriteHandler,
+    onPressHandler,
   };
 };

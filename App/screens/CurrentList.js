@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const CurrentList = () => {
+const CurrentList = ({ navigation }) => {
   const {
     list,
     loading,
@@ -27,6 +27,7 @@ const CurrentList = () => {
     onSubmitHandler,
     onRightSwipeHandler,
     onFavoriteHandler,
+    onPressHandler,
   } = useCurrentList();
 
   const renderNachos = () => (
@@ -39,6 +40,7 @@ const CurrentList = () => {
           isFavorite={index % 2 === 0}
           onLeftSwipeHandler={onLeftSwipeHandler}
           onRightSwipeHandler={() => onRightSwipeHandler(id)}
+          onPressHandler={() => onPressHandler(navigation, { name, id })}
         />
       )}
       keyExtractor={({ id }) => id}
