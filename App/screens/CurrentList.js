@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   SafeAreaView,
   FlatList,
@@ -6,8 +6,8 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
-import uuid from 'uuid/v4';
-import AsyncStorate from '@react-native-community/async-storage';
+
+import { useCurrentList } from '../util/ListManager';
 
 import ListItem from '../components/ListItem';
 import Separator from '../components/UI/Separator';
@@ -20,50 +20,14 @@ const styles = StyleSheet.create({
 });
 
 const CurrentList = () => {
-  const [list, setList] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  const updateStoredCurrentList = list => {
-    AsyncStorate.setItem('@@IngredientList/currentList', JSON.stringify(list));
-  };
-
-  const onFavoritePress = () => alert('Ahoy sailor o/');
-
-  const onSubmitHandler = ({ nativeEvent: { text } }) => {
-    const newIngredient = {
-      id: uuid(),
-      name: text,
-    };
-    const newList = [newIngredient, ...list];
-    setList(newList);
-    updateStoredCurrentList(newList);
-  };
-
-  const onLeftSwipeHandler = () => {
-    alert('Ahoy Sailor ⛵');
-  };
-
-  const onRightSwipeHandler = id => {
-    const newList = list.filter(item => item.id !== id);
-    setList(newList);
-    updateStoredCurrentList(newList);
-  };
-
-  const ingredientListInit = async () => {
-    try {
-      const data = await AsyncStorate.getItem('@@IngredientList/currentList');
-      const parsedData = await JSON.parse(data);
-      if (parsedData) setList(parsedData);
-    } catch (error) {
-      console.log(false);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    ingredientListInit();
-  }, []);
+  const {
+    list,
+    loading,
+    onLeftSwipeHandler,
+    onSubmitHandler,
+    onRightSwipeHandler,
+    onFavoriteHandler,
+  } = useCurrentList();
 
   const renderNachos = () => (
     <FlatList
@@ -71,7 +35,7 @@ const CurrentList = () => {
       renderItem={({ item: { name, id }, index }) => (
         <ListItem
           name={name}
-          onFavoritePress={onFavoritePress}
+          onFavoritePress={onFavoriteHandler}
           isFavorite={index % 2 === 0}
           onLeftSwipeHandler={onLeftSwipeHandler}
           onRightSwipeHandler={() => onRightSwipeHandler(id)}
