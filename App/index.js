@@ -1,9 +1,7 @@
 import React from 'react';
 
-import CurrentList from './screens/CurrentList';
+import Navigation from './navigation';
 
-const App = () => {
-  return <CurrentList />;
-};
+const App = () => <Navigation />;
 
 export default App;
