@@ -1,6 +1,9 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { View, Text } from 'react-native';
 import uuid from 'uuid/v4';
 import AsyncStorate from '@react-native-community/async-storage';
+
+import { styles } from '../components/ListItem';
 
 const updateStoredCurrentList = list => {
   AsyncStorate.setItem('@@IngredientList/currentList', JSON.stringify(list));
@@ -49,13 +52,13 @@ export const useCurrentList = () => {
       const parsedListdData = await JSON.parse(listData);
       setList(parsedListdData || []);
 
-      const cartData = await AsyncStorage.getItem(
+      const cartData = await AsyncStorate.getItem(
         '@@IngredientList/currentCart',
       );
       const parsedCartData = await JSON.parse(cartData);
       setCart(parsedCartData || []);
     } catch (error) {
-      console.log(false);
+      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -71,6 +74,7 @@ export const useCurrentList = () => {
 
   return {
     list,
+    cart,
     loading,
     onLeftSwipeHandler,
     onSubmitHandler,
@@ -79,3 +83,9 @@ export const useCurrentList = () => {
     onPressHandler,
   };
 };
+
+export const SectionHeader = ({ title }) => (
+  <View style={[styles.container, styles.sectionContainer]}>
+    <Text style={styles.sectionText}>{title}</Text>
+  </View>
+);

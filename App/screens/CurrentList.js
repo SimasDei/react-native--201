@@ -1,13 +1,13 @@
 import React from 'react';
 import {
   SafeAreaView,
-  FlatList,
+  SectionList,
   KeyboardAvoidingView,
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
 
-import { useCurrentList } from '../util/ListManager';
+import { useCurrentList, SectionHeader } from '../util/ListManager';
 
 import ListItem from '../components/ListItem';
 import Separator from '../components/UI/Separator';
@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
 const CurrentList = ({ navigation }) => {
   const {
     list,
+    cart,
     loading,
     onLeftSwipeHandler,
     onSubmitHandler,
@@ -30,9 +31,17 @@ const CurrentList = ({ navigation }) => {
     onPressHandler,
   } = useCurrentList();
 
+  const sections = [
+    { title: 'List', data: list },
+    { title: 'Cart', data: cart },
+  ];
+
   const renderNachos = () => (
-    <FlatList
-      data={list}
+    <SectionList
+      sections={sections}
+      renderSectionHeader={({ section }) => (
+        <SectionHeader title={section.title} />
+      )}
       renderItem={({ item, item: { name, id }, index }) => (
         <ListItem
           name={name}

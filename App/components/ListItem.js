@@ -12,12 +12,19 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import LeftActions from './UI/LeftActions';
 import RightActions from './UI/RightActions';
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     padding: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: '#fff',
+  },
+  sectionContainer: {
+    backgroundColor: '#d3d3d3',
+    padding: 10,
+  },
+  sectionText: {
+    fontWeight: '600',
   },
   text: {
     fontSize: 18,
