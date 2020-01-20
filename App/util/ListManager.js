@@ -5,10 +5,14 @@ import AsyncStorate from '@react-native-community/async-storage';
 const updateStoredCurrentList = list => {
   AsyncStorate.setItem('@@IngredientList/currentList', JSON.stringify(list));
 };
+const updateStoredCurrentCart = list => {
+  AsyncStorate.setItem('@@IngredientList/currentCart', JSON.stringify(list));
+};
 
 export const useCurrentList = () => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [cart, setCart] = useState([]);
 
   const onFavoriteHandler = () => alert('Ahoy sailor o/');
 
@@ -22,8 +26,13 @@ export const useCurrentList = () => {
     updateStoredCurrentList(newList);
   };
 
-  const onLeftSwipeHandler = () => {
-    alert('Ahoy Sailor ⛵');
+  const onLeftSwipeHandler = item => {
+    const updateCart = [item, ...cart];
+    setCart(updateCart);
+    updateStoredCurrentCart(updateCart);
+    onRightSwipeHandler(item.id);
+
+    console.log(cart);
   };
 
   const onRightSwipeHandler = id => {
@@ -34,9 +43,17 @@ export const useCurrentList = () => {
 
   const ingredientListInit = async () => {
     try {
-      const data = await AsyncStorate.getItem('@@IngredientList/currentList');
-      const parsedData = await JSON.parse(data);
-      if (parsedData) setList(parsedData);
+      const listData = await AsyncStorate.getItem(
+        '@@IngredientList/currentList',
+      );
+      const parsedListdData = await JSON.parse(listData);
+      setList(parsedListdData || []);
+
+      const cartData = await AsyncStorage.getItem(
+        '@@IngredientList/currentCart',
+      );
+      const parsedCartData = await JSON.parse(cartData);
+      setCart(parsedCartData || []);
     } catch (error) {
       console.log(false);
     } finally {

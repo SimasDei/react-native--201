@@ -33,14 +33,14 @@ const CurrentList = ({ navigation }) => {
   const renderNachos = () => (
     <FlatList
       data={list}
-      renderItem={({ item: { name, id }, index }) => (
+      renderItem={({ item, item: { name, id }, index }) => (
         <ListItem
           name={name}
           onFavoritePress={onFavoriteHandler}
           isFavorite={index % 2 === 0}
-          onLeftSwipeHandler={onLeftSwipeHandler}
+          onLeftSwipeHandler={() => onLeftSwipeHandler(item)}
           onRightSwipeHandler={() => onRightSwipeHandler(id)}
-          onPressHandler={() => onPressHandler(navigation, { name, id })}
+          onPressHandler={() => onPressHandler(navigation, item)}
         />
       )}
       keyExtractor={({ id }) => id}
